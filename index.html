@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>calculadora inversa — impuestos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>calculadora inversa</h1>
+      <p>calcula el <strong>total a cobrar</strong> desde la base imponible.</p>
+    </div>
+
+    <div class="main-panel">
+      <div class="input-section">
+        <div class="field">
+          <label for="baseAmount">base imponible (€)</label>
+          <input id="baseAmount" type="number" inputmode="decimal" step="0.01" min="0" value="425" />
+        </div>
+
+        <div class="field">
+          <label for="ivaRate">IVA (%)</label>
+          <input id="ivaRate" type="number" step="1" min="0" value="21" />
+        </div>
+
+        <div class="field irpf-field">
+          <label for="irpfRate">IRPF (%)</label>
+          <div class="input-with-toggle">
+            <input id="irpfRate" type="number" step="1" min="0" value="0" />
+            <button id="toggleIrpf" class="toggle-btn" aria-label="activar/desactivar IRPF">
+              <span id="toggleIcon">✓</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-card">
+          <h4>resultado</h4>
+          
+          <div class="result-row">
+            <span>base imponible</span>
+            <strong id="baseOut">—</strong>
+          </div>
+
+          <div class="result-row" id="irpfRow">
+            <span>IRPF</span>
+            <strong id="irpfOut">—</strong>
+          </div>
+
+          <div class="result-row">
+            <span>IVA</span>
+            <strong id="ivaOut">—</strong>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="result-row total">
+            <span>total a cobrar</span>
+            <strong id="totalOut">—</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="branding-badge">
+      <a href="https://meowrhino.studio" target="_blank" rel="noopener noreferrer">meowrhino.studio</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
