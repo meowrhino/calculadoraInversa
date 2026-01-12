@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Crear una calculadora inversa de impuestos minimalista que permita calcular el total a cobrar desde la base imponible, con inputs para IVA e IRPF.
+Crear una calculadora de impuestos minimalista que permita calcular el total a cobrar desde la base imponible, con inputs para IVA e IRPF.
 
 ## Requisitos funcionales
 

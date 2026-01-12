@@ -1,6 +1,6 @@
-# calculadora inversa
+# calculadora de impuestos
 
-Calculadora minimalista de impuestos para calcular el total a cobrar desde la base imponible.
+Calculadora de impuestos para calcular el total a cobrar desde la base imponible (IVA e IRPF).
 
 ## Características
 
@@ -16,6 +16,28 @@ Simplemente abre `index.html` en tu navegador. Los cálculos se actualizan autom
 ### IRPF
 
 El campo de IRPF está desactivado por defecto. Para activarlo, haz clic en el botón de toggle (✓/✗) al lado del input.
+
+## SEO y publicación
+
+Este proyecto incluye configuración SEO básica sin alterar la interfaz.
+
+### Archivos SEO incluidos
+
+- `sitemap.xml`: lista de URLs para indexación (se envía en Search Console).
+- `robots.txt`: referencia el sitemap para los bots.
+- `og-image.png`: imagen 1200x630 para previsualizaciones en redes.
+- `favicon/`: pack de iconos (favicon.ico, PNGs y apple-touch-icon).
+- `google*.html`: archivo de verificación de Google Search Console (no lo borres).
+
+### Cómo conseguirlos y para qué sirven
+
+- **Google Search Console**: añade la propiedad con prefijo de URL, descarga el archivo HTML y súbelo a la raíz del repo. Sirve para verificar la propiedad e indexar el sitio.
+- **Favicon pack**: genera el pack (por ejemplo con https://realfavicongenerator.net/) y coloca los archivos en `favicon/`. Sirve para iconos en pestañas, móviles y accesos directos.
+- **OG image**: exporta una imagen 1200x630 y guárdala como `og-image.png`. Sirve para el preview al compartir la URL.
+
+### Metadatos en `index.html`
+
+Incluye `title`, `description`, `canonical`, Open Graph/Twitter y JSON‑LD para mejorar la indexación y el preview en redes. Si cambia la URL pública, actualiza el `canonical` y las URLs de las imágenes.
 
 ## Tecnologías
 
