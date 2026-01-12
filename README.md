@@ -1,21 +1,22 @@
 # calculadora de impuestos
 
-Calculadora de impuestos para calcular el total a cobrar desde la base imponible (IVA e IRPF).
+Calculadora de impuestos para calcular el total a cobrar desde la base imponible o la base imponible desde el total (IVA e IRPF).
 
 ## Características
 
 - **Base imponible**: Input para introducir la cantidad base en euros
-- **IVA**: Porcentaje de IVA (solo números enteros)
-- **IRPF**: Porcentaje de IRPF (solo números enteros) con activación/desactivación mediante botón toggle
+- **Total a cobrar**: Input para calcular en modo inverso desde el total
+- **IVA**: Porcentaje de IVA (solo números enteros) con activación/desactivación mediante botón toggle (activo por defecto)
+- **IRPF**: Porcentaje de IRPF (solo números enteros) con activación/desactivación mediante botón toggle (desactivado por defecto)
 - **Resultado en tiempo real**: Muestra el desglose y el total a cobrar
 
 ## Uso
 
-Simplemente abre `index.html` en tu navegador. Los cálculos se actualizan automáticamente al modificar los valores.
+Simplemente abre `index.html` en tu navegador. Puedes introducir la base imponible o el total a cobrar y el otro campo se recalcula automáticamente.
 
-### IRPF
+### IVA e IRPF
 
-El campo de IRPF está desactivado por defecto. Para activarlo, haz clic en el botón de toggle (✓/✗) al lado del input.
+El IVA está activado por defecto y se puede desactivar con su botón de toggle (✓/✗). El IRPF está desactivado por defecto y se activa con su toggle al lado del input.
 
 ## SEO y publicación
 

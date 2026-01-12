@@ -6,27 +6,36 @@
     currency: 'EUR'
   });
 
+  const DEFAULT_RATES = {
+    iva: 21,
+    irpf: 15
+  };
+
   const els = {
     baseAmount: $('baseAmount'),
     totalAmount: $('totalAmount'),
     ivaRate: $('ivaRate'),
     irpfRate: $('irpfRate'),
+    toggleIva: $('toggleIva'),
+    toggleIvaIcon: $('toggleIvaIcon'),
     toggleIrpf: $('toggleIrpf'),
-    toggleIcon: $('toggleIcon'),
+    toggleIrpfIcon: $('toggleIrpfIcon'),
 
     baseOut: $('baseOut'),
     ivaOut: $('ivaOut'),
     irpfOut: $('irpfOut'),
     totalOut: $('totalOut'),
-    irpfRow: $('irpfRow'),
+    ivaRow: $('ivaRow'),
+    irpfRow: $('irpfRow')
   };
 
-  // Estado
+  // Estado de UI
+  let ivaEnabled = true;
   let irpfEnabled = false;
   let lastEdited = 'base'; // 'base' | 'total'
   let isUpdating = false;
 
-  // Utilidades numéricas
+  // Utilidades numéricas y formato
   const toNum = (v) => {
     const n = Number(String(v).replace(',', '.'));
     return Number.isFinite(n) ? n : 0;
@@ -34,6 +43,7 @@
 
   const toCents = (n) => Math.round((Number(n) + Number.EPSILON) * 100);
   const fromCents = (c) => (c / 100);
+  const formatMoney = (c) => fmt.format(fromCents(c));
   const clampNonNeg = (cents) => Math.max(0, Math.trunc(cents));
   const percentToRate = (v) => Math.max(0, Math.floor(toNum(v))) / 100;
   const centsToInput = (c) => fromCents(c).toFixed(2);
@@ -75,30 +85,48 @@
     return { baseC: baseGuess, ok: true, approx: true };
   }
 
+  function setToggleUI(inputEl, buttonEl, iconEl, enabled) {
+    inputEl.disabled = !enabled;
+    buttonEl.classList.toggle('active', enabled);
+    buttonEl.setAttribute('aria-pressed', String(enabled));
+    iconEl.textContent = enabled ? '✓' : '✗';
+  }
+
+  function setIvaUI() {
+    setToggleUI(els.ivaRate, els.toggleIva, els.toggleIvaIcon, ivaEnabled);
+  }
+
   function setIrpfUI() {
-    if (irpfEnabled) {
-      els.irpfRate.disabled = false;
-      els.toggleIrpf.classList.add('active');
-      els.toggleIcon.textContent = '✓';
-    } else {
-      els.irpfRate.disabled = true;
-      els.toggleIrpf.classList.remove('active');
-      els.toggleIcon.textContent = '✗';
+    setToggleUI(els.irpfRate, els.toggleIrpf, els.toggleIrpfIcon, irpfEnabled);
+  }
+
+  function setRateRow(rowEl, valueEl, enabled, cents, prefix = '') {
+    if (enabled && cents > 0) {
+      rowEl.style.display = 'flex';
+      valueEl.textContent = prefix + formatMoney(cents);
+      return;
     }
+
+    rowEl.style.display = 'none';
+    valueEl.textContent = formatMoney(0);
+  }
+
+  function setRateRowUnknown(rowEl, valueEl, enabled) {
+    if (enabled) {
+      rowEl.style.display = 'flex';
+      valueEl.textContent = '—';
+      return;
+    }
+
+    rowEl.style.display = 'none';
+    valueEl.textContent = formatMoney(0);
   }
 
   function updateOutputs({ baseC, ivaC, irpfC, totalC }) {
-    els.baseOut.textContent = fmt.format(fromCents(baseC));
-    els.ivaOut.textContent = fmt.format(fromCents(ivaC));
-    els.totalOut.textContent = fmt.format(fromCents(totalC));
-
-    if (irpfEnabled && irpfC > 0) {
-      els.irpfRow.style.display = 'flex';
-      els.irpfOut.textContent = '− ' + fmt.format(fromCents(irpfC));
-    } else {
-      els.irpfRow.style.display = 'none';
-      els.irpfOut.textContent = fmt.format(0);
-    }
+    els.baseOut.textContent = formatMoney(baseC);
+    els.totalOut.textContent = formatMoney(totalC);
+    setRateRow(els.ivaRow, els.ivaOut, ivaEnabled, ivaC);
+    setRateRow(els.irpfRow, els.irpfOut, irpfEnabled, irpfC, '− ');
 
     isUpdating = true;
     try {
@@ -114,7 +142,7 @@
   }
 
   function compute() {
-    const ivaRate = percentToRate(els.ivaRate.value);
+    const ivaRate = ivaEnabled ? percentToRate(els.ivaRate.value) : 0;
     const irpfRate = irpfEnabled ? percentToRate(els.irpfRate.value) : 0;
 
     if (lastEdited === 'base') {
@@ -129,9 +157,9 @@
 
     if (solved.baseC == null) {
       els.baseOut.textContent = '—';
-      els.ivaOut.textContent = '—';
-      els.totalOut.textContent = fmt.format(fromCents(totalC));
-      els.irpfRow.style.display = 'none';
+      els.totalOut.textContent = formatMoney(totalC);
+      setRateRowUnknown(els.ivaRow, els.ivaOut, ivaEnabled);
+      setRateRowUnknown(els.irpfRow, els.irpfOut, irpfEnabled);
       return;
     }
 
@@ -139,12 +167,27 @@
     updateOutputs(lines);
   }
 
+  function toggleIvaState() {
+    ivaEnabled = !ivaEnabled;
+
+    if (ivaEnabled) {
+      if (els.ivaRate.value === '0' || els.ivaRate.value.trim() === '') {
+        els.ivaRate.value = String(DEFAULT_RATES.iva);
+      }
+    } else {
+      els.ivaRate.value = '0';
+    }
+
+    setIvaUI();
+    compute();
+  }
+
   function toggleIrpfState() {
     irpfEnabled = !irpfEnabled;
 
     if (irpfEnabled) {
       if (els.irpfRate.value === '0' || els.irpfRate.value.trim() === '') {
-        els.irpfRate.value = '15';
+        els.irpfRate.value = String(DEFAULT_RATES.irpf);
       }
     } else {
       els.irpfRate.value = '0';
@@ -154,7 +197,30 @@
     compute();
   }
 
+  function bindAmountField(inputEl, field) {
+    const handler = () => {
+      if (isUpdating) return;
+      lastEdited = field;
+      compute();
+    };
+
+    inputEl.addEventListener('input', handler);
+    inputEl.addEventListener('change', handler);
+  }
+
+  function bindRateField(inputEl) {
+    inputEl.addEventListener('input', compute);
+    inputEl.addEventListener('change', compute);
+  }
+
   function init() {
+    // IVA activado por defecto
+    ivaEnabled = true;
+    if (els.ivaRate.value === '0' || els.ivaRate.value.trim() === '') {
+      els.ivaRate.value = String(DEFAULT_RATES.iva);
+    }
+    setIvaUI();
+
     // IRPF desactivado por defecto
     irpfEnabled = false;
     els.irpfRate.value = '0';
@@ -165,34 +231,12 @@
     compute();
 
     // Eventos (bidireccional)
-    els.baseAmount.addEventListener('input', () => {
-      if (isUpdating) return;
-      lastEdited = 'base';
-      compute();
-    });
-    els.baseAmount.addEventListener('change', () => {
-      if (isUpdating) return;
-      lastEdited = 'base';
-      compute();
-    });
+    bindAmountField(els.baseAmount, 'base');
+    bindAmountField(els.totalAmount, 'total');
+    bindRateField(els.ivaRate);
+    bindRateField(els.irpfRate);
 
-    els.totalAmount.addEventListener('input', () => {
-      if (isUpdating) return;
-      lastEdited = 'total';
-      compute();
-    });
-    els.totalAmount.addEventListener('change', () => {
-      if (isUpdating) return;
-      lastEdited = 'total';
-      compute();
-    });
-
-    els.ivaRate.addEventListener('input', compute);
-    els.ivaRate.addEventListener('change', compute);
-
-    els.irpfRate.addEventListener('input', compute);
-    els.irpfRate.addEventListener('change', compute);
-
+    els.toggleIva.addEventListener('click', toggleIvaState);
     els.toggleIrpf.addEventListener('click', toggleIrpfState);
   }
 
