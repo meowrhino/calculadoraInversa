@@ -171,6 +171,22 @@ input:disabled {
   color: var(--primary-dark); 
 }
 
+@media (min-width: 769px) {
+  .result-section {
+    display: flex;
+  }
+
+  .result-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .result-card .divider {
+    margin: auto 0 0.6rem;
+  }
+}
+
 .branding-badge {
   margin: 1.5rem 0 0.75rem;
   text-align: center;
