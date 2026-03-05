@@ -1,32 +1,31 @@
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-  --primary: #7c5aa8;
-  --primary-dark: #6a4b90;
-  --bg: #faf9fb;
+  --bg: #ffffff;
   --card: #ffffff;
-  --text: #1f2937;
-  --text-muted: #6b7280;
-  --border: #e5e7eb;
-  --success: #10b981;
-  --error: #ef4444;
-  --warning: #f59e0b;
-  --radius: 12px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --text: #000000;
+  --text-muted: #999999;
+  --border: rgba(0, 0, 0, 0.12);
+  --border-hover: rgba(0, 0, 0, 0.35);
+  --success: #059669;
+  --error: #dc2626;
+  --radius: 4px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.08);
   --container-max: 980px;
   --panel-gap: 1rem;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inknut Antiqua', Georgia, 'Times New Roman', serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  letter-spacing: 0.03em;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -34,10 +33,10 @@ body {
   padding: 2rem 1rem;
 }
 
-.container { 
-  width: 100%; 
-  max-width: var(--container-max); 
-  margin: 0 auto; 
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
 }
 
 .main-panel {
@@ -69,30 +68,31 @@ body {
 
 label {
   display: block;
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.7rem;
   margin-bottom: 0.35rem;
+  color: var(--text);
 }
 
 input {
   width: 100%;
   padding: 0.7rem 0.75rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 0.95rem;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
   font-family: inherit;
+  letter-spacing: 0.03em;
   background: white;
   color: var(--text);
 }
 
 input:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(124, 90, 168, 0.15);
+  border-color: var(--border-hover);
 }
 
 input:disabled {
-  background: #f3f4f6;
+  background: #fafafa;
   color: var(--text-muted);
   cursor: not-allowed;
   opacity: 0.6;
@@ -112,10 +112,10 @@ input:disabled {
   width: 44px;
   height: 44px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--card);
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -124,19 +124,19 @@ input:disabled {
 }
 
 .toggle-btn:hover {
-  background: #faf5ff;
-  border-color: var(--primary);
+  border-color: var(--border-hover);
 }
 
 .toggle-btn.active {
-  background: var(--primary);
+  background: var(--text);
   color: white;
-  border-color: var(--primary);
+  border-color: var(--text);
 }
 
 .result-card h4 {
   color: var(--text);
-  font-size: 0.98rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   margin-bottom: 1rem;
 }
 
@@ -146,47 +146,47 @@ input:disabled {
   align-items: baseline;
   gap: 1rem;
   padding: 0.5rem 0;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
 }
 
-.result-row span { 
-  color: var(--text); 
+.result-row span {
+  color: var(--text-muted);
 }
 
-.result-row strong { 
-  color: var(--text); 
+.result-row strong {
+  color: var(--text);
 }
 
-.divider { 
-  height: 1px; 
-  background: var(--border); 
-  margin: 0.6rem 0; 
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.6rem 0;
 }
 
-.result-row.total { 
-  font-size: 1.05rem; 
+.result-row.total {
+  font-size: 0.8rem;
 }
 
-.result-row.total strong { 
-  color: var(--primary-dark); 
+.result-row.total strong {
+  color: var(--text);
 }
 
 .branding-badge {
   margin: 1.5rem 0 0.75rem;
   text-align: center;
-  color: var(--text);
-  font-weight: 600;
+  font-size: 0.65rem;
 }
 
 .branding-badge a {
-  color: var(--primary);
-  font-weight: 800;
+  color: var(--text-muted);
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
+  letter-spacing: 0.05em;
 }
 
-.branding-badge a:hover { 
-  color: var(--primary-dark); 
+.branding-badge a:hover {
+  color: var(--text);
 }
 
 @media (min-width: 769px) {
@@ -207,10 +207,10 @@ input:disabled {
 
 /* Responsive */
 @media (max-width: 768px) {
-  body { 
-    padding: 1rem 0.75rem; 
+  body {
+    padding: 1rem 0.75rem;
   }
-  
+
   .main-panel {
     grid-template-columns: 1fr;
     justify-items: center;
