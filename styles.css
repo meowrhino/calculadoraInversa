@@ -26,10 +26,9 @@ body {
   color: var(--text);
   line-height: 1.6;
   letter-spacing: 0.03em;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: 2rem 1rem;
 }
 
@@ -172,13 +171,10 @@ input:disabled {
 }
 
 .branding-badge {
-  position: fixed;
-  bottom: 10dvh;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: auto;
   text-align: center;
   font-size: 0.65rem;
-  z-index: 10;
+  padding: 2rem 0 1.5rem;
 }
 
 .branding-badge a {
